@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 170" role="img" aria-labelledby="title desc">
+  <title>Маркони Траттория</title>
+  <desc>Логотип ресторана Маркони</desc>
+  <rect width="520" height="170" fill="#fff"/>
+  <path d="M170 22h180l-8 72c-4 34-34 54-82 54s-78-20-82-54z" fill="#fff" stroke="#1f1a17" stroke-width="6"/>
+  <path d="M184 32h76v65c-30 3-57 14-73 27z" fill="#2d941f"/>
+  <path d="M260 32h76l-3 92c-18-16-42-25-73-27z" fill="#f04b24"/>
+  <text x="260" y="105" text-anchor="middle" font-family="Georgia,serif" font-size="76" font-weight="700" font-style="italic" fill="#1f1a17">Маркони</text>
+  <path d="M70 118c105-33 278-34 390 0-125 10-264 10-390 0z" fill="#1f1a17"/>
+  <text x="260" y="153" text-anchor="middle" font-family="Georgia,serif" font-size="22" letter-spacing="9" font-weight="700" fill="#1f1a17">Т Р А Т Т О Р И Я</text>
+</svg>
