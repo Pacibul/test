@@ -55,10 +55,8 @@
       font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
     }
     .brand-mark {
-      width: 126px; height: 48px; border-radius: 0;
-      background: url('assets/markoni-logo.png') center / contain no-repeat;
-      background: url('assets/markoni-logo.png') center / contain no-repeat;
-      box-shadow: none;
+      display: block; width: 126px; height: 48px; object-fit: contain; object-position: center;
+      border-radius: 0; background: transparent; box-shadow: none;
     }
     nav { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
     nav a {
@@ -424,7 +422,7 @@ lid var(--line); }
     }
     @media (max-width: 640px) {
       .topbar-inner { gap: 12px; padding: 10px 0; }
-      .brand-mark { width: 108px; height: 42px; }
+      .brand-mark { width: 112px; height: 42px; }
       nav { display: none; }
       .cta-row { width: 100%; justify-content: stretch; }
       .cta-row .btn { flex: 1 1 0; min-width: 0; padding-inline: 12px; font-size: 13px; }
