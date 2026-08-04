@@ -690,27 +690,94 @@ lid var(--line); }
   </div>
   <script>
     const cart = [];
-    const telegramConfig = { endpoint: '/api/order' };
-    const money = value => valuetoFixed(2).replace('.', ',') + ' BYN';
-    const findItem = name => cartfind(item => itemname === name);
+    const money = value => value.toFixed(2).replace('.', ',') + ' BYN';
+    const modal = document.getElementById('cartModal');
+    const findItem = name => cart.find(item => item.name === name);
+
+    function openCart() {
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    function changeQty(name, delta) {
+      const item = findItem(name);
+      if (!item) return;
+      item.qty += delta;
+      const index = cart.findIndex(entry => entry.qty < 1);
+      if (index >= 0) cart.splice(index, 1);
+      renderCart();
+    }
+
     function renderCart() {
       const items = document.getElementById('cartItems');
-      const count = cart.reduce((sum, item) => sum + itemqty, 0);
-      const total = cart.reduce((sum, item) => sum + itemprice * item.qty, 0);
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
       document.getElementById('cartCount').textContent = count;
       document.getElementById('cartTotal').textContent = money(total);
-      items.innerHTML = cart.length ? cart.map(item => '<div class="cart-item"><span><strong>' + itemname + '</strong><br><small>' + money(itemprice) + '</small></span><span class="qty"><button type="button" data-minus="' + item.name + '">-</button><b>' + itemqty + '</b><button type="button" data-plus="' + item.name + '">+</button></span><b>' + money(itemprice * item.qty) + '</b></div>')join('') : '<p style="color:var(--muted);">&#1050;&#1086;&#1088;&#1079;&#1080;&#1085;&#1072; &#1087;&#1086;&#1082;&#1072; &#1087;&#1091;&#1089;&#1090;&#1072; &#1044;&#1086;&#1073;&#1072;&#1074;&#1100;&#1090;&#1077; &#1087;&#1080;&#1094;&#1094;&#1091; &#1080;&#1079; &#1084;&#1077;&#1085;&#1102;.</p>';
-      itemsquerySelectorAll('[data-minus]').forEach(button => buttononclick = () => changeQty(buttondataset.minus, -1));
-      items.querySelectorAll('[data-plus]').forEach(button => buttononclick = () => changeQty(buttondataset.plus, 1));
+      items.innerHTML = cart.length
+        ? cart.map(item => `<div class="cart-item"><span><strong>${item.name}</strong><br><small>${money(item.price)}</small></span><span class="qty"><button type="button" data-minus="${item.name}" aria-label="Уменьшить количество">−</button><b>${item.qty}</b><button type="button" data-plus="${item.name}" aria-label="Увеличить количество">+</button></span><b>${money(item.price * item.qty)}</b></div>`).join('')
+        : '<p style="color:var(--muted)">Корзина пока пуста Добавьте пиццу из меню</p>';
+      items.querySelectorAll('[data-minus]').forEach(button => button.addEventListener('click', () => changeQty(button.dataset.minus, -1)));
+      items.querySelectorAll('[data-plus]').forEach(button => button.addEventListener('click', () => changeQty(button.dataset.plus, 1)));
     }
-    function changeQty(name, delta) { const item = findItem(name); if (item) item.qty += delta; const index = cart.findIndex(item => itemqty < 1); if (index >= 0) cartsplice(index, 1); renderCart(); }
-    document.querySelectorAll('#menu .card .btn').forEach(button => buttonaddEventListener('click', event => { eventpreventDefault(); const card = button.closest('.card'); const name = card.querySelector('h3').textContent.trim(); const price = parseFloat(card.querySelector('.price').textContent.replace(',', '.')); const item = findItem(name); if (item) item.qty++; else cart.push({ name, price, qty: 1 }); renderCart(); document.getElementById('cartModal').classList.add('is-open'); }));
-    document.getElementById('openCart').onclick = () => documentgetElementById('cartModal').classList.add('is-open');
-    document.getElementById('closeCart').onclick = () => documentgetElementById('cartModal').classList.remove('is-open');
-    document.getElementById('cartModal').addEventListener('click', event => { if (eventtarget.id === 'cartModal') event.currentTarget.classList.remove('is-open'); });
-    document.getElementById('orderForm').addEventListener('submit', async event => { eventpreventDefault(); if (!cart.length) return; const data = new FormData(event.currentTarget); const lines = cart.map(item => itemname + ' x' + item.qty).join('; '); const total = cart.reduce((sum, item) => sum + itemprice * item.qty, 0); const order = { name: data.get('name'), phone: data.get('phone'), address: data.get('address'), items: lines, total }; const status = document.getElementById('orderStatus'); status.textContent = '&#1054;&#1090;&#1087;&#1088;&#1072;&#1074;&#1083;&#1103;&#1077;&#1084; &#1079;&#1072;&#1082;&#1072;&#1079; &#1084;&#1077;&#1085;&#1077;&#1076;&#1078;&#1077;&#1088;&#1091;...'; try { const response = await fetch(telegramConfig.endpoint, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(order) }); status.textContent = response.ok ? '&#1047;&#1072;&#1082;&#1072;&#1079; &#1086;&#1090;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;. &#1052;&#1077;&#1085;&#1077;&#1076;&#1078;&#1077;&#1088; &#1089;&#1074;&#1103;&#1078;&#1077;&#1090;&#1089;&#1103; &#1089; &#1074;&#1072;&#1084;&#1080; &#1087;&#1086; &#1090;&#1077;&#1083;&#1077;&#1092;&#1086;&#1085;&#1091;.' : '&#1053;&#1077; &#1091;&#1076;&#1072;&#1083;&#1086;&#1089;&#1100; &#1086;&#1090;&#1087;&#1088;&#1072;&#1074;&#1080;&#1090;&#1100; &#1079;&#1072;&#1082;&#1072;&#1079;. &#1055;&#1086;&#1079;&#1074;&#1086;&#1085;&#1080;&#1090;&#1077; &#1085;&#1072;&#1084;: +375 (44) 5-026-026'; } catch (error) { status.textContent = '&#1044;&#1077;&#1084;&#1086;-&#1088;&#1077;&#1078;&#1080;&#1084;: &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1080;&#1090;&#1077; /api/order &#1082; Telegram &#1087;&#1077;&#1088;&#1077;&#1076; &#1087;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1094;&#1080;&#1077;&#1081;.'; status.style.color = 'var(--accent-dark)'; console.log(order); } });
-    document.getElementById('catalogOrder').onclick = () => documentgetElementById('cartModal').classList.add('is-open');
-    document.querySelectorAll('[data-promo]').forEach(button => buttonaddEventListener('click', () => { documentgetElementById('cartModal').classList.add('is-open'); }));
+
+    document.querySelectorAll('#menu .card .btn').forEach(button => {
+      button.addEventListener('click', event => {
+        event.preventDefault();
+        const card = button.closest('.card');
+        const name = card.querySelector('h3').textContent.trim();
+        const price = parseFloat(card.querySelector('.price').textContent.replace(',', '.'));
+        const item = findItem(name);
+        if (item) item.qty += 1;
+        else cart.push({ name, price, qty: 1 });
+        renderCart();
+        openCart();
+      });
+    });
+
+    document.getElementById('openCart').addEventListener('click', openCart);
+    document.getElementById('mobileCart').addEventListener('click', openCart);
+    document.getElementById('catalogOrder').addEventListener('click', openCart);
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    modal.addEventListener('click', event => { if (event.target === modal) closeCart(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeCart(); });
+    document.querySelectorAll('[data-promo]').forEach(button => button.addEventListener('click', openCart));
+
+    document.getElementById('orderForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const status = document.getElementById('orderStatus');
+      if (!cart.length) {
+        status.textContent = 'Добавьте хотя бы одну позицию';
+        return;
+      }
+      const data = new FormData(event.currentTarget);
+      const order = {
+        name: data.get('name'),
+        phone: data.get('phone'),
+        address: data.get('address'),
+        items: cart.map(item => `${item.name} × ${item.qty}`).join('; '),
+        total: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+      };
+      status.textContent = 'Отправляем заказ менеджеру';
+      try {
+        const response = await fetch('/api/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(order)
+        });
+        if (!response.ok) throw new Error('Order endpoint unavailable');
+        status.textContent = 'Заказ отправлен Менеджер свяжется с вами по телефону';
+      } catch {
+        status.textContent = 'Онлайн-отправка пока в демо-режиме Позвоните +375 (44) 5-026-026';
+        status.style.color = 'var(--accent-dark)';
+      }
+    });
+
     renderCart();
   </script>
 </body>
