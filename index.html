@@ -454,7 +454,26 @@ lid var(--line); }
     .delivery-note { margin-top:12px; padding:16px 18px; border-radius:16px; background:rgba(31,26,23,.08); color:var(--muted); font-size:14px; line-height:1.5; }
     @media (max-width:980px) { .service-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .notice-grid { grid-template-columns:1fr; } }
     @media (max-width:640px) { .service-grid { grid-template-columns:1fr; } .service-card { min-height:0; } }
+  
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
+    .mobile-order-bar { display:none; }
+    @media (max-width:640px) { .mobile-order-bar { display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:55; padding:8px; gap:8px; border-radius:18px; background:rgba(255,250,242,.94); box-shadow:0 12px 34px rgba(31,26,23,.22); backdrop-filter:blur(16px); } .mobile-order-bar .btn { flex:1; min-width:0; } .cart-fab { bottom:82px; } }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Маркони",
+    "servesCuisine": "Italian",
+    "telephone": "+375445026026",
+    "url": "https://pizzamarkoni.by/",
+    "priceRange": "$",
+    "address": {"@type":"PostalAddress","addressLocality":"Гомель","addressCountry":"BY"},
+    "openingHours": "Mo-Su 10:00-23:00",
+    "sameAs": ["https://pizzamarkoni.by/"]
+  }
+  </script>
 </head>
 <body>
   <header class="topbar">
@@ -474,7 +493,7 @@ lid var(--line); }
         <a href="#menu">&#1052;&#1077;&#1085;&#1102;</a>
         <a href="#delivery">&#1044;&#1086;&#1089;&#1090;&#1072;&#1074;&#1082;&#1072;</a>
         <a href="#about">&#1054; &#1088;&#1077;&#1089;&#1090;&#1086;&#1088;&#1072;&#1085;&#1077;</a>
-        <a href="#contacts">&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a>
+        <a href="#contacts">&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a><a href="#service-info">&#1059;&#1089;&#1083;&#1086;&#1074;&#1080;&#1103;</a>
       </nav>
       <div class="cta-row">
         <a class="btn btn-secondary" href="tel:+375445026026">+375 (44) 5-026-026</a>
@@ -788,7 +807,7 @@ lid var(--line); }
       <div>&#1054;&#1089;&#1085;&#1086;&#1074;&#1072; &#1076;&#1083;&#1103; &#1085;&#1086;&#1074;&#1086;&#1081; &#1075;&#1083;&#1072;&#1074;&#1085;&#1086;&#1081; &#1089;&#1090;&#1088;&#1072;&#1085;&#1080;&#1094;&#1099; &#1080; &#1074;&#1080;&#1079;&#1091;&#1072;&#1083;&#1100;&#1085;&#1086;&#1081; &#1089;&#1080;&#1089;&#1090;&#1077;&#1084;&#1099; &#1073;&#1088;&#1077;&#1085;&#1076;&#1072;</div>
     </div>
   </footer>
-  <button class="btn btn-primary cart-fab" id="openCart" type="button">&#1050;&#1086;&#1088;&#1079;&#1080;&#1085;&#1072; <span class="cart-count" id="cartCount">0</span></button>
+  <div class="mobile-order-bar"><a class="btn btn-primary" href="tel:+375445026026">&#1047;&#1072;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100;</a><button class="btn btn-secondary" id="mobileCart" type="button">&#1050;&#1086;&#1088;&#1079;&#1080;&#1085;&#1072;</button></div>\n  <button class="btn btn-primary cart-fab" id="openCart" type="button">&#1050;&#1086;&#1088;&#1079;&#1080;&#1085;&#1072; <span class="cart-count" id="cartCount">0</span></button>
   <div class="modal" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
     <div class="modal-card">
       <div class="modal-head"><h2 id="cartTitle">&#1042;&#1072;&#1096; &#1079;&#1072;&#1082;&#1072;&#1079;</h2><button class="close-modal" id="closeCart" type="button" aria-label="&#1047;&#1072;&#1082;&#1088;&#1099;&#1090;&#1100;">&times;</button></div>
